@@ -1,0 +1,6 @@
+{
+  "extends": ["next", "next/core-web-vitals", "prettier"],
+  "rules": {
+    // 여기에 추가 규칙을 적용할 수 있습니다.
+  }
+}
