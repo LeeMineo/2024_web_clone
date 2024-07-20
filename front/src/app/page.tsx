@@ -1,15 +1,13 @@
 import React from 'react';
 import Header from './components/Header/Header';
 import Footer from './components/Footer/Footer';
+import MainContent from './components/MainContent/MainContent';
 
 const Page = () => {
   return (
     <div>
       <Header />
-      <main>
-        <h1>Welcome to the home page!</h1>
-        <p>This is the main content section of the page.</p>
-      </main>
+      <MainContent />
       <Footer />
     </div>
   );

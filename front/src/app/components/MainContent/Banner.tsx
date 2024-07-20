@@ -1,20 +1,28 @@
-// src/app/components/MainContent/Banner.tsx
 import React from 'react';
-import styles from './MainContent.module.css';
-import Image from 'next/image'; // Next.js의 Image 컴포넌트를 추가합니다.
+import Image from 'next/image';
+import styles from './Banner.module.css';
+
+const slides = [
+    "/images/slide/s_1.jpg",
+    "/images/slide/s_2.jpg",
+    "/images/slide/s_3.jpg",
+    "/images/slide/s_4.jpg",
+    "/images/slide/s_5.jpg",
+    "/images/slide/s_6.jpg",
+    "/images/slide/s_7.jpg",
+    "/images/slide/s_8.jpg",
+];
 
 const Banner = () => {
-  return (
-    <div className={styles.banner}>
-<Image
-                src="/images/product/p3.jpg" // src가 누락된 이미지 경로 추가
-                alt="제품 이미지"
-                width={500}
-                height={500}
-                className="mb-4 rounded-lg"
-              />
-    </div>
-  );
+    return (
+        <div className={styles.banner}>
+            {slides.map((src, index) => (
+                <div key={index} className={styles.slide}>
+                    <Image src={src} alt={`Slide ${index + 1}`} layout="fill" objectFit="cover" />
+                </div>
+            ))}
+        </div>
+    );
 };
 
 export default Banner;
