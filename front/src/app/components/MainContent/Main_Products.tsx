@@ -8,7 +8,7 @@ const products = [
     { src: "/images/product/p3.jpg", title: "한율 소식", description: "NEW 한율 어린쑥 크림 론칭" },
 ];
 
-const Products = () => {
+const Main_Products = () => {
     return (
         <div className={styles.products}>
             {products.map((product, index) => (
@@ -22,4 +22,4 @@ const Products = () => {
     );
 };
 
-export default Products;
+export default Main_Products;

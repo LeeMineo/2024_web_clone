@@ -1,13 +1,13 @@
 import React from 'react';
 import Banner from './Banner';
-import Products from './Products';
+import Main_Products from './Main_Products';
 import styles from './MainContent.module.css';
 
 const MainContent = () => {
     return (
         <div className={styles.mainContent}>
             <Banner />
-            <Products />
+            <Main_Products />
         </div>
     );
 };
