@@ -1,5 +1,6 @@
 const nextConfig = {
   reactStrictMode: true,
+  trailingSlash: true,
   images: {
     domains: [],
     path: '/_next/image',
@@ -12,6 +13,17 @@ const nextConfig = {
         destination: '/product/:id', // 올바른 목적지 설정
       },
     ];
+  },
+  exportPathMap: async function (
+    defaultPathMap,
+    { dev, dir, outDir, distDir, buildId }
+  ) {
+    return {
+      '/': { page: '/' },
+      '/cart': { page: '/cart' },
+      '/products': { page: '/products' },
+      // 필요한 다른 경로들도 여기에 추가
+    }
   },
 };
 
