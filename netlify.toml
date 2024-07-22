@@ -1,0 +1,3 @@
+[build]
+  command = "cd front && npm install && npm run build"
+  publish = "front/.next"
