@@ -6,9 +6,7 @@ import MainContent from './components/MainContent/MainContent';
 const Page = () => {
   return (
     <div>
-      <Header />
       <MainContent />
-      <Footer />
     </div>
   );
 }

@@ -12,10 +12,18 @@
 }
 
 .divider {
-    border-top: 1px solid #ccc;
-    width: 100%;
+    border-top: 1px solid #f0f0f0;
+    width: 95%;
     margin: 10px 0;
 }
+
+.divider2 {
+    border-top: 1px solid #f0f0f0;
+    width: 95%;
+    box-shadow: 0 10px 20px -10px rgba(0, 0, 0, 0.2); /* 조정된 그림자 속성 */
+    margin: 0px 0;
+}
+
 
 .navigation {
     display: flex;

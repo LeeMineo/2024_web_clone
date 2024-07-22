@@ -60,13 +60,14 @@ const Header: React.FC = () => {
                         onMouseLeave={handleMouseLeave}
                         className={styles.navItem}
                     >
-                        <Link href={`/${item}`} passHref>
+                        <Link href={item === '제품' ? '/products' : `/${item}`} passHref>
                             <span>{item}</span>
                         </Link>
                         {hoveredItem === item && renderSubMenu(item)}
                     </div>
                 ))}
             </nav>
+            <hr className={styles.divider2} />
         </header>
     );
 };
