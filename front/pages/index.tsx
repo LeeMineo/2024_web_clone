@@ -1,5 +1,6 @@
+import MainContent from '@/app/components/MainContent/MainContent';
 import React from 'react';
-import MainContent from './components/MainContent/MainContent';
+
 
 const Page = () => {
   return (
