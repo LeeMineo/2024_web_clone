@@ -8,21 +8,11 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/cart")
-@CrossOrigin(origins = "http://localhost:3000") // 프론트엔드 주소와 동일하게 설정
+@RequestMapping("/products")
 public class CartController {
 
-    private final ProductService productService;
-
     @Autowired
-    public CartController(ProductService productService) {
-        this.productService = productService;
-    }
-
-    @GetMapping
-    public List<Product> getAllProducts() {
-        return productService.getAllProducts();
-    }
+    private ProductService productService;
 
     @GetMapping("/{id}")
     public Product getProductById(@PathVariable Long id) {
@@ -37,7 +27,8 @@ public class CartController {
     @PutMapping("/{id}")
     public Product updateProduct(@PathVariable Long id, @RequestBody Product product) {
         product.setId(id);
-        return productService.saveProduct(product);
+        productService.updateProduct(product); // updateProduct 메서드 호출
+        return product;
     }
 
     @DeleteMapping("/{id}")
@@ -45,7 +36,7 @@ public class CartController {
         productService.deleteProduct(id);
     }
 
-    @DeleteMapping
+    @DeleteMapping("/all")
     public void deleteAllProducts() {
         productService.deleteAllProducts();
     }

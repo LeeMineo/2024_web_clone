@@ -1,8 +1,7 @@
-<!-- src/main/resources/mappers/ProductMapper.xml -->
+<?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-
 <mapper namespace="com.example.cart.mapper.ProductMapper">
     <select id="getAllProducts" resultType="com.example.cart.model.Product">
         SELECT * FROM products
@@ -12,15 +11,19 @@
         SELECT * FROM products WHERE id = #{id}
     </select>
 
-    <insert id="createProduct" parameterType="com.example.cart.model.Product">
+    <insert id="saveProduct" parameterType="com.example.cart.model.Product" useGeneratedKeys="true" keyProperty="id">
         INSERT INTO products (name, description, image, quantity) VALUES (#{name}, #{description}, #{image}, #{quantity})
     </insert>
 
     <update id="updateProduct" parameterType="com.example.cart.model.Product">
-        UPDATE products SET name = #{name}, description = #{description}, image = #{image}, quantity = #{quantity} WHERE id = #{id}
+        UPDATE products SET name=#{name}, description=#{description}, image=#{image}, quantity=#{quantity} WHERE id = #{id}
     </update>
 
     <delete id="deleteProduct" parameterType="long">
         DELETE FROM products WHERE id = #{id}
+    </delete>
+
+    <delete id="deleteAllProducts">
+        DELETE FROM products
     </delete>
 </mapper>
