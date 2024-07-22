@@ -1,9 +1,9 @@
 [build]
   command = "cd front && npm install && npm run build"
-  publish = "src/.next"
+  publish = "front/.next"
 
 [[redirects]]
   from = "/*"
-  to = "/index.html"
+  to = "/"
   status = 200
   force = true
