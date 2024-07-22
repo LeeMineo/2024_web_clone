@@ -1,3 +1,8 @@
 [build]
-  command = "cd front && npm install && npm run build"
-  publish = "front/.next"
+command = "cd front && npm install && npm run build"
+publish = "front/.next"
+
+[[redirects]]
+from = "/*"
+to = "/index.html"
+status = 200
