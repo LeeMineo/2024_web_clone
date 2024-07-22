@@ -49,7 +49,9 @@ const Header: React.FC = () => {
                 </Link>
             </div>
             <div className={styles.rightImage}>
-                <Image src="/images/rg.png" alt="Additional Logo" width={50} height={50} />
+                <Link href="/cart">
+                    <Image src="/images/rg.png" alt="Additional Logo" width={50} height={50} />
+                </Link>
             </div>
             <hr className={styles.divider} />
             <nav className={styles.navigation}>

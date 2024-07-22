@@ -77,15 +77,6 @@
     font-weight: bold;
 }
 
-.purchaseButton {
-    padding: 10px 20px;
-    background-color: #000;
-    color: #fff;
-    border: none;
-    cursor: pointer;
-    align-self: flex-start;
-}
-
 /* 미디어 쿼리 추가 */
 @media (max-width: 1200px) {
     .productItem {

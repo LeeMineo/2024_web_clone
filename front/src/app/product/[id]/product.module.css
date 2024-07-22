@@ -56,6 +56,25 @@
     border-radius: 5px;
 }
 
+.options {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.quantityInput {
+    width: 60px;
+    padding: 5px;
+    margin-left: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.checkbox {
+    margin-left: 10px;
+}
+
 .purchaseButton {
     padding: 10px 20px;
     background-color: #000;
