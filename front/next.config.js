@@ -1,8 +1,9 @@
 const nextConfig = {
+  reactStrictMode: true,
   images: {
     domains: [],
     path: '/_next/image',
-    loader: 'default'
+    loader: 'default',
   },
   async rewrites() {
     return [
@@ -11,18 +12,7 @@ const nextConfig = {
         destination: '/product/:id', // 올바른 목적지 설정
       },
     ];
-  }
+  },
 };
 
-module.exports = {
-  async redirects() {
-    return [
-      {
-        source: '/:path*',
-        destination: '/',
-        permanent: true,
-      },
-    ];
-  },
-  reactStrictMode: true,
-};
+module.exports = nextConfig;
