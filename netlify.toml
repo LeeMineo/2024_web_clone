@@ -1,6 +1,5 @@
 [build]
-  base = "front"
-  command = "npm install && npm run build"
+  command = "cd front && npm install && npm run build"
   publish = ".next"
 
 [[redirects]]
