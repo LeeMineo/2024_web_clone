@@ -16,8 +16,8 @@ Delete (삭제):
 
 <br><br>
 
-디렉토리 및 파일 설명 <br>
-src/main/java/com/example/cart/: Java 소스 파일들이 위치하는 디렉토리.
+## 디렉토리 및 파일 설명 <br>
+<br>src/main/java/com/example/cart/: Java 소스 파일들이 위치하는 디렉토리.
 
 - CartApplication.java: Spring Boot 애플리케이션의 진입점.
 
