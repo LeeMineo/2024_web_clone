@@ -1,0 +1,27 @@
+<mapper namespace="com.example.cart.mapper.CartItemMapper">
+    <resultMap id="CartItemResultMap" type="com.example.cart.entity.CartItem">
+        <id property="id" column="id"/>
+        <result property="name" column="name"/>
+        <result property="quantity" column="quantity"/>
+        <result property="giftWrapped" column="gift_wrapped"/>
+    </resultMap>
+
+    <select id="findAll" resultMap="CartItemResultMap">
+        SELECT * FROM cart_items
+    </select>
+
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO cart_items (name, quantity, gift_wrapped)
+        VALUES (#{name}, #{quantity}, #{giftWrapped})
+    </insert>
+
+    <update id="update">
+        UPDATE cart_items
+        SET name=#{name}, quantity=#{quantity}, gift_wrapped=#{giftWrapped}
+        WHERE id=#{id}
+    </update>
+
+    <delete id="delete">
+        DELETE FROM cart_items WHERE id=#{id}
+    </delete>
+</mapper>

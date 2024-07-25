@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import styles from './cart.module.css';
 
@@ -12,27 +12,27 @@ interface CartItem {
     giftWrap: boolean;
 }
 
-// 임시 장바구니 데이터
-const initialCartItems: CartItem[] = [
-    {
-        productId: 1,
-        name: '보들은행잎 모공핏 세럼',
-        image: '/images/products/pd1.jpg',
-        quantity: 2,
-        giftWrap: true,
-    },
-    {
-        productId: 2,
-        name: '보들은행잎 모공핏 마스크',
-        image: '/images/products/pd2.jpg',
-        quantity: 1,
-        giftWrap: false,
-    },
-];
-
 const CartPage: React.FC = () => {
-    const [cartItems, setCartItems] = useState<CartItem[]>(initialCartItems);
+    const [cartItems, setCartItems] = useState<CartItem[]>([]);
     const [editingItemId, setEditingItemId] = useState<number | null>(null);
+
+    useEffect(() => {
+        // 장바구니 아이템 불러오기
+        const fetchCartItems = async () => {
+            try {
+                const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/cart`);
+                if (!res.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                const data = await res.json();
+                setCartItems(data);
+            } catch (error) {
+                console.error('Failed to fetch cart items:', error);
+            }
+        };
+
+        fetchCartItems();
+    }, []);
 
     const handleQuantityChange = (productId: number, newQuantity: number) => {
         setCartItems(cartItems.map(item => item.productId === productId ? { ...item, quantity: newQuantity } : item));
@@ -42,22 +42,56 @@ const CartPage: React.FC = () => {
         setCartItems(cartItems.map(item => item.productId === productId ? { ...item, giftWrap: newGiftWrap } : item));
     };
 
-    const handleSave = () => {
-        setEditingItemId(null);
+    const handleSave = async (item: CartItem) => {
+        try {
+            const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/cart/${item.productId}`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(item),
+            });
+            if (!res.ok) {
+                throw new Error('Network response was not ok');
+            }
+            setEditingItemId(null);
+        } catch (error) {
+            console.error('Failed to save cart item:', error);
+        }
     };
 
-    const handleDelete = (productId: number) => {
-        setCartItems(cartItems.filter(item => item.productId !== productId));
+    const handleDelete = async (productId: number) => {
+        try {
+            const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/cart/${productId}`, {
+                method: 'DELETE',
+            });
+            if (!res.ok) {
+                throw new Error('Network response was not ok');
+            }
+            setCartItems(cartItems.filter(item => item.productId !== productId));
+        } catch (error) {
+            console.error('Failed to delete cart item:', error);
+        }
     };
 
     const handleEdit = (productId: number) => {
         setEditingItemId(editingItemId === productId ? null : productId);
     };
 
-    const handlePurchaseAll = () => {
+    const handlePurchaseAll = async () => {
         console.log("구매 완료:", cartItems);
         // 모든 아이템 삭제 (구매 후)
-        setCartItems([]);
+        try {
+            const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/cart`, {
+                method: 'DELETE',
+            });
+            if (!res.ok) {
+                throw new Error('Network response was not ok');
+            }
+            setCartItems([]);
+        } catch (error) {
+            console.error('Failed to clear cart:', error);
+        }
     };
 
     return (
@@ -94,6 +128,9 @@ const CartPage: React.FC = () => {
                                             className={styles.checkbox}
                                         />
                                     </label>
+                                    <button className={styles.saveButton} onClick={() => handleSave(item)}>
+                                        저장하기
+                                    </button>
                                 </div>
                             ) : (
                                 <div className={styles.cartItemOptions}>
@@ -103,7 +140,7 @@ const CartPage: React.FC = () => {
                             )}
                             <div className={styles.cartItemActions}>
                                 <button className={styles.editButton} onClick={() => handleEdit(item.productId)}>
-                                    {editingItemId === item.productId ? '저장하기' : '수정하기'}
+                                    {editingItemId === item.productId ? '취소' : '수정하기'}
                                 </button>
                                 <button className={styles.deleteButton} onClick={() => handleDelete(item.productId)}>
                                     삭제하기
