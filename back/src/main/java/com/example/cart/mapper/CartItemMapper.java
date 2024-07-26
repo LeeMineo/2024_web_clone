@@ -7,22 +7,25 @@ import java.util.List;
 
 @Mapper
 public interface CartItemMapper {
+
+    @Select("SELECT * FROM cart_items WHERE id = #{id}")
+    CartItem selectCartItemById(Long id);
+
     @Select("SELECT * FROM cart_items")
-    @Results({
-            @Result(property = "id", column = "id"),
-            @Result(property = "name", column = "name"),
-            @Result(property = "quantity", column = "quantity"),
-            @Result(property = "giftWrapped", column = "gift_wrapped")
-    })
-    List<CartItem> findAll();
+    List<CartItem> selectAllCartItems();
 
     @Insert("INSERT INTO cart_items (name, quantity, gift_wrapped) VALUES (#{name}, #{quantity}, #{giftWrapped})")
     @Options(useGeneratedKeys = true, keyProperty = "id")
+    void insertCartItem(CartItem cartItem);
+
+    @Update("UPDATE cart_items SET name = #{name}, quantity = #{quantity}, gift_wrapped = #{giftWrapped} WHERE id = #{id}")
+    void updateCartItem(CartItem cartItem);
+
+    @Delete("DELETE FROM cart_items WHERE id = #{id}")
+    void deleteCartItem(Long id);
+
+    List<CartItem> findAll();
     void insert(CartItem cartItem);
-
-    @Update("UPDATE cart_items SET name=#{name}, quantity=#{quantity}, gift_wrapped=#{giftWrapped} WHERE id=#{id}")
     void update(CartItem cartItem);
-
-    @Delete("DELETE FROM cart_items WHERE id=#{id}")
     void delete(Long id);
 }

@@ -6,4 +6,10 @@
     <settings>
         <setting name="mapUnderscoreToCamelCase" value="true"/>
     </settings>
+    <typeAliases>
+        <typeAlias alias="CartItem" type="com.example.cart.entity.CartItem"/>
+    </typeAliases>
+    <mappers>
+        <mapper resource="mappers/CartItemMapper.xml"/>
+    </mappers>
 </configuration>
