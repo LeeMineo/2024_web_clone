@@ -6,7 +6,7 @@ import styles from './cart.module.css';
 import axios from '../lib/axios';  // Axios 인스턴스를 import 합니다
 
 interface CartItem {
-    productId: number;
+    id: number;  // productId 대신 id로 수정
     name: string;
     image: string;
     quantity: number;
@@ -31,41 +31,41 @@ const CartPage: React.FC = () => {
         fetchCartItems();
     }, []);
 
-    const handleQuantityChange = (productId: number, newQuantity: number) => {
-        setCartItems(cartItems.map(item => item.productId === productId ? { ...item, quantity: newQuantity } : item));
+    const handleQuantityChange = (id: number, newQuantity: number) => {
+        setCartItems(cartItems.map(item => item.id === id ? { ...item, quantity: newQuantity } : item));
     };
 
-    const handleGiftWrapChange = (productId: number, newGiftWrap: boolean) => {
-        setCartItems(cartItems.map(item => item.productId === productId ? { ...item, giftWrap: newGiftWrap } : item));
+    const handleGiftWrapChange = (id: number, newGiftWrap: boolean) => {
+        setCartItems(cartItems.map(item => item.id === id ? { ...item, giftWrap: newGiftWrap } : item));
     };
 
     const handleSave = async (item: CartItem) => {
         try {
-            const res = await axios.put(`/cart/${item.productId}`, item);
+            const res = await axios.put(`/cart/products/${item.id}`, item);
             setEditingItemId(null);
         } catch (error) {
             console.error('Failed to save cart item:', error);
         }
     };
 
-    const handleDelete = async (productId: number) => {
+    const handleDelete = async (id: number) => {
         try {
-            await axios.delete(`/cart/${productId}`);
-            setCartItems(cartItems.filter(item => item.productId !== productId));
+            await axios.delete(`/cart/products/${id}`);
+            setCartItems(cartItems.filter(item => item.id !== id));
         } catch (error) {
             console.error('Failed to delete cart item:', error);
         }
     };
 
-    const handleEdit = (productId: number) => {
-        setEditingItemId(editingItemId === productId ? null : productId);
+    const handleEdit = (id: number) => {
+        setEditingItemId(editingItemId === id ? null : id);
     };
 
     const handlePurchaseAll = async () => {
         console.log("구매 완료:", cartItems);
         // 모든 아이템 삭제 (구매 후)
         try {
-            await axios.delete('/cart');
+            await axios.delete('/cart/products');
             setCartItems([]);
         } catch (error) {
             console.error('Failed to clear cart:', error);
@@ -77,15 +77,15 @@ const CartPage: React.FC = () => {
             <h1 className={styles.title}>장바구니</h1>
             <div className={styles.cartItems}>
                 {cartItems.map((item) => (
-                    <div key={item.productId} className={styles.cartItem}>
-                        <Link href={`/product/${item.productId}`}>
+                    <div key={item.id} className={styles.cartItem}>
+                        <Link href={`/product/${item.id}`}>
                             <img src={item.image} alt={item.name} className={styles.cartItemImage} />
                         </Link>
                         <div className={styles.cartItemDetails}>
-                            <Link href={`/product/${item.productId}`}>
+                            <Link href={`/product/${item.id}`}>
                                 <h2 className={styles.cartItemName}>{item.name}</h2>
                             </Link>
-                            {editingItemId === item.productId ? (
+                            {editingItemId === item.id ? (
                                 <div className={styles.cartItemOptions}>
                                     <label>
                                         수량:
@@ -93,7 +93,7 @@ const CartPage: React.FC = () => {
                                             type="number"
                                             min="1"
                                             value={item.quantity}
-                                            onChange={(e) => handleQuantityChange(item.productId, parseInt(e.target.value))}
+                                            onChange={(e) => handleQuantityChange(item.id, parseInt(e.target.value))}
                                             className={styles.quantityInput}
                                         />
                                     </label>
@@ -102,7 +102,7 @@ const CartPage: React.FC = () => {
                                         <input
                                             type="checkbox"
                                             checked={item.giftWrap}
-                                            onChange={(e) => handleGiftWrapChange(item.productId, e.target.checked)}
+                                            onChange={(e) => handleGiftWrapChange(item.id, e.target.checked)}
                                             className={styles.checkbox}
                                         />
                                     </label>
@@ -117,10 +117,10 @@ const CartPage: React.FC = () => {
                                 </div>
                             )}
                             <div className={styles.cartItemActions}>
-                                <button className={styles.editButton} onClick={() => handleEdit(item.productId)}>
-                                    {editingItemId === item.productId ? '취소' : '수정하기'}
+                                <button className={styles.editButton} onClick={() => handleEdit(item.id)}>
+                                    {editingItemId === item.id ? '취소' : '수정하기'}
                                 </button>
-                                <button className={styles.deleteButton} onClick={() => handleDelete(item.productId)}>
+                                <button className={styles.deleteButton} onClick={() => handleDelete(item.id)}>
                                     삭제하기
                                 </button>
                             </div>
