@@ -5,6 +5,7 @@ import { useParams } from 'next/navigation';
 import { products } from '../../data/products';
 import Image from 'next/image';
 import styles from './product.module.css';
+import axios from '../../lib/axios';  // Axios 인스턴스를 import 합니다
 
 const ProductDetailPage = () => {
     const params = useParams();
@@ -17,16 +18,21 @@ const ProductDetailPage = () => {
         return <div>Product not found</div>;
     }
 
-    const handleAddToCart = () => {
+    const handleAddToCart = async () => {
         const cartItem = {
             productId: product.id,
             name: product.name,
             image: product.image,
             quantity: quantity,
-            giftWrap: giftWrap
+            giftWrap: giftWrap,
         };
-        // 여기에 장바구니에 추가하는 로직을 구현합니다. 예: 로컬 스토리지에 저장 또는 API 호출
-        console.log('Add to Cart:', cartItem);
+        
+        try {
+            const response = await axios.post('/cart/products', cartItem);
+            console.log('Added to Cart:', response.data);
+        } catch (error) {
+            console.error('Failed to add to cart:', error);
+        }
     };
 
     return (

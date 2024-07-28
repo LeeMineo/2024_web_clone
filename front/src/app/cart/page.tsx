@@ -3,6 +3,7 @@
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import styles from './cart.module.css';
+import axios from '../lib/axios';  // Axios 인스턴스를 import 합니다
 
 interface CartItem {
     productId: number;
@@ -20,12 +21,8 @@ const CartPage: React.FC = () => {
         // 장바구니 아이템 불러오기
         const fetchCartItems = async () => {
             try {
-                const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/cart`);
-                if (!res.ok) {
-                    throw new Error('Network response was not ok');
-                }
-                const data = await res.json();
-                setCartItems(data);
+                const res = await axios.get('/cart/products');
+                setCartItems(res.data);
             } catch (error) {
                 console.error('Failed to fetch cart items:', error);
             }
@@ -44,16 +41,7 @@ const CartPage: React.FC = () => {
 
     const handleSave = async (item: CartItem) => {
         try {
-            const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/cart/${item.productId}`, {
-                method: 'PUT',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(item),
-            });
-            if (!res.ok) {
-                throw new Error('Network response was not ok');
-            }
+            const res = await axios.put(`/cart/${item.productId}`, item);
             setEditingItemId(null);
         } catch (error) {
             console.error('Failed to save cart item:', error);
@@ -62,12 +50,7 @@ const CartPage: React.FC = () => {
 
     const handleDelete = async (productId: number) => {
         try {
-            const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/cart/${productId}`, {
-                method: 'DELETE',
-            });
-            if (!res.ok) {
-                throw new Error('Network response was not ok');
-            }
+            await axios.delete(`/cart/${productId}`);
             setCartItems(cartItems.filter(item => item.productId !== productId));
         } catch (error) {
             console.error('Failed to delete cart item:', error);
@@ -82,12 +65,7 @@ const CartPage: React.FC = () => {
         console.log("구매 완료:", cartItems);
         // 모든 아이템 삭제 (구매 후)
         try {
-            const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/cart`, {
-                method: 'DELETE',
-            });
-            if (!res.ok) {
-                throw new Error('Network response was not ok');
-            }
+            await axios.delete('/cart');
             setCartItems([]);
         } catch (error) {
             console.error('Failed to clear cart:', error);
