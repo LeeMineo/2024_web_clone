@@ -76,6 +76,7 @@
     margin-left: 10px;
 }
 
+
 .saveButton,
 .editButton,
 .deleteButton {
@@ -89,7 +90,10 @@
 }
 
 .saveButton {
+    padding: 5px 10px;
     background-color: #0070f3; /* 저장하기 버튼 색상 */
+    width: 100px; /* 원하는 길이로 설정 */
+    text-align: center; /* 텍스트 중앙 정렬 */
 }
 
 .editButton {
